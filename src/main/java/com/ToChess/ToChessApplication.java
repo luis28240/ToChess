@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ToChessApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ToChessApplication.class, args);
+            SpringApplication.run(ToChessApplication.class, args);
 	}
 
 }
