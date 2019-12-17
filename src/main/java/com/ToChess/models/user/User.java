@@ -89,6 +89,9 @@ public class User {
             return false;
         }
         final User other = (User) obj;
+        if(other.getUsername().equals("anonymous") && username.equals("anonymous")){
+            return false;
+        }
         if (!Objects.equals(this.username, other.username)) {
             return false;
         }
