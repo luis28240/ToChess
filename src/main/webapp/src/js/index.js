@@ -13,7 +13,7 @@
 
     var irAPartida = (data) => {
         var gameId = data.data;
-        window.location.href = "http://localhost:8088/ToChess/chess-game/" + gameId;
+        window.location.href = `${contextPath}/chess-game/${gameId}`;
     };
 
     $(function () {
@@ -27,18 +27,18 @@
                     var html = 
                             `<div class="row justify-content-center mt-4">
                                 <div class="col-5">
-                                    <a href="http://localhost:8088/ToChess/chess-game/${game.id}">
+                                    <a href="${contextPath}/chess-game/${game.id}">
                                         Blancas: ${game.whitePlayer.username} <br/>
                                         Negras: ${game.blackPlayer.username}
                                     </a>
                                 </div>
                                 <div class="col">
-                                    <a href="http://localhost:8088/ToChess/chess-game/${game.id}">
+                                    <a href="${contextPath}/chess-game/${game.id}">
                                         <div style="width:250px;" class="col" data-fen="${game.fen}" id="chessboardPreview${i}"></div>
                                     </a>
                                 </div>
                             </div>`;
-                    console.log(html);
+//                    console.log(html);
                     $('#gameList').append(html);
                     
                     var config = {

@@ -18,7 +18,7 @@
     };
 
     function conectarWebSocket() {
-        var socket = SockJS('http://localhost:8088/ToChess/toChess-games');
+        var socket = SockJS('/ToChess/toChess-games');
         stompClient = Stomp.over(socket);
         stompClient.debug = null;
         stompClient.connect({}, function (frame) {
