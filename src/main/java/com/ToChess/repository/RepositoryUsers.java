@@ -34,6 +34,28 @@ public class RepositoryUsers {
         return pSt.executeQuery();
     }
     
+    public User getUserByEmail(String email){
+        String sql 
+                = "SELECT username,\n"
+                + "       email,\n"
+                + "       \"password\"\n"
+                + "FROM   \"users\"\n"
+                + "WHERE  UPPER(email) = UPPER(?)";
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pSt = con.prepareStatement(sql);
+             ResultSet rsUser = executeQuery(pSt, email)) {
+            if(rsUser.next()){
+                String username = rsUser.getString("username");
+                User user = new User(username);
+                user.setEmail(email);
+                return user;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RepositoryUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     public boolean userExists(String username, String password){
         
         String sql 
@@ -69,7 +91,7 @@ public class RepositoryUsers {
                 
                 User user = new User(username);
                 user.setEmail(email);
-                
+                user.setLoggedUser(true);
                 return user;
             }
         } catch (SQLException ex) {

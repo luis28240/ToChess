@@ -19,15 +19,7 @@
     </head>
     <body>
         <main class="container">
-            <header class="row justify-content-center">
-                <div class="col-8">
-                    <h1>Hola, ${sessionScope.user.username}</h1>
-                </div>
-                <div class="col">
-                    <a role="button" class="btn btn-warning" href="<c:url value='/register'/>">Registrarse</a>
-                    <a role="button"  class="btn btn-success" href="<c:url value='/login'/>">Ingresar</a>
-                </div>
-            </header>
+            <%@include file="../includes/header.jsp" %>
             <section class="row justify-content-center">
                 <div class="col-12 d-flex justify-content-center align-items-center">
                     <button class="btn btn-primary" id="buscar" disabled>Buscar partida</button>

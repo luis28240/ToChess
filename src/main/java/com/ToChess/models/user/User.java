@@ -7,6 +7,7 @@ package com.ToChess.models.user;
 
 import com.ToChess.models.game.ChessGame;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  *
@@ -20,10 +21,20 @@ public class User {
     private final HashMap<String, ChessGame> gameList;
     private String password;
     private String email;
-    
+    private boolean loggedUser;
+
     public User(String username) {
         this.username = username;
         gameList = new HashMap<>();
+        loggedUser = false;
+    }
+
+    public boolean isLoggedUser() {
+        return loggedUser;
+    }
+
+    public void setLoggedUser(boolean loggedUser) {
+        this.loggedUser = loggedUser;
     }
 
     public String getPassword() {
@@ -57,5 +68,33 @@ public class User {
     public void removeChessGame(String gameId){
         gameList.remove(gameId);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.username);
+        hash = 23 * hash + Objects.hashCode(this.email);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        return Objects.equals(this.email, other.email);
+    }
+
+
     
 }
