@@ -37,9 +37,40 @@
             .dot-white {
                 background-color: white;
             }
+            .btn-pgn{
+                display: inline-block;
+                font-weight: 400;
+                color: #212529;
+                text-align: center;
+                vertical-align: middle;
+                cursor: pointer;
+                background-color: transparent;
+                border: 1px solid transparent;
+                padding: .375rem .75rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                border-radius: .25rem;
+            }
+            .btn-pgn:hover{
+                background-color: #eaeff4;
+            }
+            .btn-pgn:focus{
+                background-color: #c8e3fe !important;
+                outline: none;
+                outline-width: 0;
+                /*text-decoration: underline;*/
+                box-shadow: none;
+            }
             #chessBoard{
                 position: relative;
                 z-index: 0;
+            }
+            #currentPGN{
+                overflow: auto;
+            }
+            .pgn-row{
+                height: 36px !important;
+                margin: 0px !important;
             }
         </style>
     </head>
@@ -47,22 +78,22 @@
         <%@include file="../includes/header.jsp" %>
         <main class="container">
             <section class="row">
-                <h1>${type == "black" ? game.whitePlayer.username : game.blackPlayer.username}</h1>
+                <!--<div class="col-12 col-md-8">-->
+                <div class="col-8">
+                    <h1>${type == "black" ? game.whitePlayer.username : game.blackPlayer.username}</h1>
+                </div>
+                <div class="col d-flex justify-content-center align-items-center">
+                    <div class="dot-${type}" id="circleTurn"></div>
+                </div>
             </section>
             <section class="row">
                 <section class="col-12 col-md-8">
                     <div id="chessBoard"
                          data-themePath="<c:url value='/src/img/chesspieces/wikipedia/{piece}.png'/>">
                     </div>
-
                 </section>
                 <section class="col-12 col-md">
-                    <div class="row">
-                        <div class="dot-${type}" id="circleTurn"></div>
-                    </div>
-                    <div class="row">
-                        <div id="currentPGN" class="w-100"></div>
-                    </div>
+                    <div id="currentPGN" class="border container-fluid p-0"></div>
                 </section>
             </section>
             <section class="row">
