@@ -35,7 +35,8 @@ public class HomepageController {
 
         Object userObj = session.getAttribute("user");
         if (userObj == null) {
-            String username = "user-" + session.getId().substring(0, User.USERNAME_LENGHT);
+//            String username = "user-" + session.getId().substring(0, User.USERNAME_LENGHT);
+            String username = "anonymous";
             User user = new User(username);
             session.setAttribute("user", user);
         }

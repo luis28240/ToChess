@@ -21,7 +21,8 @@ public class LogOutController {
 
     @RequestMapping()
     public ModelAndView logOut(HttpSession session) {
-        String username = "user-" + session.getId().substring(0, User.USERNAME_LENGHT);
+//        String username = "user-" + session.getId().substring(0, User.USERNAME_LENGHT);
+        String username = "anonymous";
         User user = new User(username);
         session.setAttribute("user", user);
         return new ModelAndView("register/logout");

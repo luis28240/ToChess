@@ -80,7 +80,8 @@ public class RepositoryUsers {
         String sql 
                 = "SELECT username,\n"
                 + "       email,\n"
-                + "       \"password\"\n"
+                + "       \"password\",\n"
+                + "       classical\n"
                 + "FROM   \"users\"\n"
                 + "WHERE  UPPER(username) = UPPER(?)";
         try (Connection con = dataSource.getConnection();
@@ -88,9 +89,11 @@ public class RepositoryUsers {
              ResultSet rsUser = executeQuery(pSt, username)) {
             if(rsUser.next()){
                 String email = rsUser.getString("email");
+                int classical = rsUser.getInt("classical");
                 
                 User user = new User(username);
                 user.setEmail(email);
+                user.setClassical(classical);
                 user.setLoggedUser(true);
                 return user;
             }
@@ -106,11 +109,13 @@ public class RepositoryUsers {
                 + "    (id_user,\n"
                 + "     username,\n"
                 + "     email,\n"
-                + "     \"password\")\n"
+                + "     \"password\",\n"
+                + "     classical)\n"
                 + "VALUES (seq_user.nextval,"
                 + "        ?,"
                 + "        ?,"
-                + "        ?)";
+                + "        ?,"
+                + "        1500)";
 
         try (Connection con = dataSource.getConnection();
                 PreparedStatement pSt = con.prepareStatement(sql);) {

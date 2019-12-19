@@ -13,6 +13,7 @@
     <filter>
         <filter-name>SimpleCORSFilter</filter-name>
         <filter-class>com.ToChess.filters.SimpleCORSFilter</filter-class>
+        <async-supported>true</async-supported>
     </filter>
     <filter-mapping>
         <filter-name>SimpleCORSFilter</filter-name>

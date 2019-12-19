@@ -12,14 +12,14 @@
               crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <style>
-            a[role=button]{
+            .btn-warning{
                 color: white;
             }
         </style>
     </head>
     <body>
+        <%@include file="../includes/header.jsp" %>
         <main class="container">
-            <%@include file="../includes/header.jsp" %>
             <section class="row justify-content-center">
                 <div class="col-12 d-flex justify-content-center align-items-center">
                     <button class="btn btn-primary" id="buscar" disabled>Buscar partida</button>

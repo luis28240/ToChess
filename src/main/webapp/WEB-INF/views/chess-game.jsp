@@ -44,11 +44,12 @@
         </style>
     </head>
     <body>
+        <%@include file="../includes/header.jsp" %>
         <main class="container">
-            <div class="row">
-                <h1 clas="text-center">Hola, ${sessionScope.user.username}</h1>
-            </div>
-            <div class="row">
+            <section class="row">
+                <h1>${type == "black" ? game.whitePlayer.username : game.blackPlayer.username}</h1>
+            </section>
+            <section class="row">
                 <section class="col-12 col-md-8">
                     <div id="chessBoard"
                          data-themePath="<c:url value='/src/img/chesspieces/wikipedia/{piece}.png'/>">
@@ -63,7 +64,10 @@
                         <div id="currentPGN" class="w-100"></div>
                     </div>
                 </section>
-            </div>
+            </section>
+            <section class="row">
+                <h1>${type == "black" ? game.blackPlayer.username : game.whitePlayer.username}</h1>
+            </section>
         </main>
 
         <!--Modal For Piece selection-->

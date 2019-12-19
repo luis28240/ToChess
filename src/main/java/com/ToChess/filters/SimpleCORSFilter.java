@@ -17,9 +17,9 @@ public class SimpleCORSFilter implements Filter {
 
     private final Logger log = LoggerFactory.getLogger(SimpleCORSFilter.class);
 
-    public SimpleCORSFilter() {
-        log.info("SimpleCORSFilter init");
-    }
+//    public SimpleCORSFilter() {
+//        log.info("SimpleCORSFilter init");
+//    }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -28,6 +28,7 @@ public class SimpleCORSFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
 
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+//        System.out.println("Origin: " + request.getHeader("Origin"));
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");

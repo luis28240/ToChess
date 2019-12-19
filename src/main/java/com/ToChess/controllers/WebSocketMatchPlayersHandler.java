@@ -26,41 +26,44 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class WebSocketMatchPlayersHandler extends TextWebSocketHandler {
 
     private final LinkedHashMap<String, WebSocketSession> sessionList;
+    private final LinkedHashMap<String, WebSocketSession> anonymousList;
     private final ChessGameService gameService;
 
-    private WebSocketSession getRandomSession() {
+    private WebSocketSession getRandomSession(LinkedHashMap userList) {
         Random generator = new Random();
-        Object[] values = sessionList.values().toArray();
+        Object[] values = userList.values().toArray();
         return (WebSocketSession) values[generator.nextInt(values.length)];
     }
 
     @Autowired
     public WebSocketMatchPlayersHandler(ChessGameService gameService) {
         sessionList = new LinkedHashMap<>();
+        anonymousList = new LinkedHashMap<>();
         this.gameService = gameService;
     }
 
-    @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-    }
+//    @Override
+//    public void afterConnectionEstablished(WebSocketSession session) throws Exception {}
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 
-//        User sessionUser = getUser(session);
-        if (!sessionList.containsKey(session.getId())) {
-            sessionList.put(session.getId(), session);
+        User sessionUser = getUser(session);
+        LinkedHashMap userList = sessionUser.isAnonymous() ? anonymousList : sessionList;
+        
+        if (!userList.containsKey(session.getId())) {
+            userList.put(session.getId(), session);
             String requestType = message.getPayload();
             if (requestType.equals("match")) {
-                if (sessionList.size() >= 2) {
-                    WebSocketSession session1 = getRandomSession();
+                if (userList.size() >= 2) {
+                    WebSocketSession session1 = getRandomSession(userList);
                     
                     //Como es random, puede que escoga otra vez la session1, asi
                     //que comprobamos si ambas sesiones son iguales, si es asi
                     //se busca al azar otra sesion hasta que sean distintas
-                    WebSocketSession session2 = getRandomSession();
+                    WebSocketSession session2 = getRandomSession(userList);
                     while (session1 == session2) {
-                        session2 = getRandomSession();
+                        session2 = getRandomSession(userList);
                     }
                     User user1 = getUser(session1);
                     User user2 = getUser(session2);
@@ -73,8 +76,8 @@ public class WebSocketMatchPlayersHandler extends TextWebSocketHandler {
                         session1.sendMessage(new TextMessage(newGame.getId()));
                         session2.sendMessage(new TextMessage(newGame.getId()));
 
-                        sessionList.remove(session1.getId());
-                        sessionList.remove(session2.getId());
+                        userList.remove(session1.getId());
+                        userList.remove(session2.getId());
                         
                         gameService.addChessGame(newGame);
                     }
@@ -85,8 +88,11 @@ public class WebSocketMatchPlayersHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        if (sessionList.containsKey(session.getId())) {
-            sessionList.remove(session.getId());
+        User sessionUser = getUser(session);
+        LinkedHashMap userList = sessionUser.isAnonymous() ? anonymousList : sessionList;
+        
+        if (userList.containsKey(session.getId())) {
+            userList.remove(session.getId());
         }
     }
 

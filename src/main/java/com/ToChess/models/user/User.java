@@ -14,23 +14,32 @@ import java.util.Objects;
  * @author Tarde
  */
 public class User {
-    
+
     public static final int USERNAME_LENGHT = 10;
-    
+
     private final String username;
     private final HashMap<String, ChessGame> gameList;
     private String password;
     private String email;
     private boolean loggedUser;
+    private int classical;
 
+    public int getClassical() {
+        return classical;
+    }
+
+    public void setClassical(int classical) {
+        this.classical = classical;
+    }
+    
     public User(String username) {
         this.username = username;
         gameList = new HashMap<>();
         loggedUser = false;
     }
 
-    public boolean isLoggedUser() {
-        return loggedUser;
+    public boolean isAnonymous() {
+        return !loggedUser || username.equals("anonymous");
     }
 
     public void setLoggedUser(boolean loggedUser) {
@@ -52,20 +61,20 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public String getUsername() {
         return username;
     }
-    
-    public void addChessGame(ChessGame game){
+
+    public void addChessGame(ChessGame game) {
         gameList.put(game.getId(), game);
     }
-    
-    public ChessGame getChessGame(String gameId){
+
+    public ChessGame getChessGame(String gameId) {
         return gameList.get(gameId);
     }
-    
-    public void removeChessGame(String gameId){
+
+    public void removeChessGame(String gameId) {
         gameList.remove(gameId);
     }
 
@@ -89,7 +98,7 @@ public class User {
             return false;
         }
         final User other = (User) obj;
-        if(other.getUsername().equals("anonymous") && username.equals("anonymous")){
+        if (other.getUsername().equals("anonymous") && username.equals("anonymous")) {
             return false;
         }
         if (!Objects.equals(this.username, other.username)) {
@@ -98,6 +107,4 @@ public class User {
         return Objects.equals(this.email, other.email);
     }
 
-
-    
 }
