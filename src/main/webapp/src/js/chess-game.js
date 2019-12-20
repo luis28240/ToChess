@@ -52,7 +52,7 @@ function getCaptured() {
             var piece = move.captured;
             // switch colors since the history stores the color of the player doing the
             // capturing, not the color of the captured piece
-            var color = move.color == 'w' ? 'b' : 'w';
+            var color = move.color === 'w' ? 'b' : 'w';
             acc[color][piece] += 1;
             return acc;
         } else {

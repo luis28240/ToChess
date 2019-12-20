@@ -18,7 +18,7 @@
         </style>
     </head>
     <body>
-        <%@include file="../includes/header.jsp" %>
+        <%@include file="/WEB-INF/includes/header.jsp" %>
         <main class="container">
             <section class="row justify-content-center">
                 <div class="col-12 d-flex justify-content-center align-items-center">
