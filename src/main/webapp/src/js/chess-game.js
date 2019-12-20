@@ -10,6 +10,8 @@ var stompClient;
 var kingSquare;
 var fromPromotion;
 var toPromotion;
+var isInvalidPos;
+
 //For IE11 support
 Number.isInteger = Number.isInteger || function (value) {
     return typeof value === "number" &&
@@ -22,14 +24,14 @@ function conectarWebSocket() {
     stompClient = Stomp.over(socket);
     stompClient.debug = null;
     stompClient.connect({}, function (frame) {
-        console.log('Conectado: ' + frame);
+//        console.log('Conectado: ' + frame);
         stompClient.subscribe('/topic/game/play/' + gameId, moverAlRecibirWebSocket);
     });
 }
 
 function moverAlRecibirWebSocket(data) {
     var currentGame = JSON.parse(data.body);
-    console.log("PGN recibido: " + currentGame.pgn);
+//    console.log("PGN recibido: " + currentGame.pgn);
     var fromSquare = currentGame.lastMove.from;
     var toSquare = currentGame.lastMove.to;
     var promotionSquare = currentGame.lastMove.promotion;
@@ -38,6 +40,26 @@ function moverAlRecibirWebSocket(data) {
 
     chessGame.move({from: fromSquare, to: toSquare, promotion: promotionSquare});
     updateBoard();
+}
+
+function getCaptured() {
+    var history = chessGame.history({verbose: true});
+    var initial = {w: {p: 0, n: 0, b: 0, r: 0, q: 0},
+        b: {p: 0, n: 0, b: 0, r: 0, q: 0}};
+
+    var captured = history.reduce(function (acc, move) {
+        if ('captured' in move) {
+            var piece = move.captured;
+            // switch colors since the history stores the color of the player doing the
+            // capturing, not the color of the captured piece
+            var color = move.color == 'w' ? 'b' : 'w';
+            acc[color][piece] += 1;
+            return acc;
+        } else {
+            return acc;
+        }
+    }, initial);
+    return captured;
 }
 
 function enviarJugada(from, to, promotion) {
@@ -81,6 +103,7 @@ function getPiecePosition(game, piece) {
 }
 
 function updateBoard() {
+    isInvalidPos = false;
     chessBoard.position(chessGame.fen());
 
     if (chessGame.in_check()) {
@@ -118,19 +141,20 @@ function updateBoard() {
             html += "<div class='row m-0 p-0 pgn-row'>";
             html += `<div class='col-2 border text-monospace d-flex justify-content-center align-items-center text-muted pgn-row'>${(i / 2) + 1}</div>`;
         }
-        var moveBtnHTML = `<div class='col-5 p-0'> <button class='btn-pgn w-100 rounded-0 pgn-row' data-last='${parseInt(i) === gameHistory.length - 1}' data-fen='${auxChessGame.fen()}'>${move}</button></div>`;
+        var moveBtnHTML = `<div class='col${i % 2 !== 0 ? "" : "-5"} p-0'> <button class='btn-pgn w-100 rounded-0 pgn-row' data-last='${parseInt(i) === gameHistory.length - 1}' data-fen='${auxChessGame.fen()}'>${move}</button></div>`;
 //        console.logC(`${i} -> ${gameHistory.length - 1}`);
         html += moveBtnHTML;
 //        console.log(html);
 
-        if (i > 0 && (i % 2 !== 0 || parseInt(i) === gameHistory.length - 1)) {
+//        if (i > 0 && (i % 2 !== 0 || parseInt(i) === gameHistory.length - 1)) {
+        if (i % 2 !== 0 || parseInt(i) === gameHistory.length - 1) {
             html += "</div>";
             $('#currentPGN').append(html);
             html = "";
-            console.log("Se ha cerrado row en " + i);
+//            console.log("Se ha cerrado row en " + i);
         }
 
-        console.log("TOTAL ACTUAL: " + $('#currentPGN').html());
+//        console.log("TOTAL ACTUAL: " + $('#currentPGN').html());
     }
     $('.btn-pgn').on("click", cambiarPosicion);
     $('#currentPGN').height($('div[class^=board]').height());
@@ -139,18 +163,19 @@ function updateBoard() {
 }
 
 function cambiarPosicion() {
-    console.log($(this).data("fen"));
+//    console.log($(this).data("fen"));
     chessBoard.position($(this).data("fen"));
-    if($(this).data("last")){
-        console.log("last::::");
-    }else{
-        
-    }
+
+    isInvalidPos = !($(this).data("last"));
 }
 
 function verificarAgarre(source, piece, position, orientation) {
     // do not pick up pieces if the game is over
     if (chessGame.game_over()) {
+        return false;
+    }
+
+    if (isInvalidPos) {
         return false;
     }
 
@@ -168,7 +193,7 @@ function verificarAgarre(source, piece, position, orientation) {
 function selectPromote() {
     var pieceSelected = $(this).attr("value");
     promote(fromPromotion, toPromotion, pieceSelected);
-    console.log("Has seleccionado: " + pieceSelected);
+//    console.log("Has seleccionado: " + pieceSelected);
     $('#selPieceModal').modal('hide');
 }
 
