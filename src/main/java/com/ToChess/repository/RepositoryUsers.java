@@ -106,13 +106,12 @@ public class RepositoryUsers {
     public void insertarUsuario(User user) throws UsernameRepeatedException {
 
         String sql = "INSERT INTO \"users\" \n"
-                + "    (id_user,\n"
-                + "     username,\n"
+                + "    (username,\n"
                 + "     email,\n"
                 + "     \"password\",\n"
                 + "     classical)\n"
-                + "VALUES (seq_user.nextval,"
-                + "        ?,"
+//                + "VALUES (seq_user.nextval,"
+                + "VALUES (?,"
                 + "        ?,"
                 + "        ?,"
                 + "        1500)";

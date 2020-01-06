@@ -19,7 +19,7 @@
                     Email: ${userProfile.email}
                 </div>
                 <div class='col-12 col-md'>
-                    Classic: ${userProfile.classic}
+                    Classical: ${userProfile.classical}
                 </div>
             </section>
         </main>
