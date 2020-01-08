@@ -8,6 +8,7 @@ package com.ToChess.models.user;
 import com.ToChess.models.game.ChessGame;
 import java.util.HashMap;
 import java.util.Objects;
+import javax.persistence.Entity;
 
 /**
  *
