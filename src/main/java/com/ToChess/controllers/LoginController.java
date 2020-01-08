@@ -49,7 +49,9 @@ public class LoginController {
             view.addObject("mensaje", "ingresado");
             return view;
         }else{
-            return new ModelAndView("register/login");
+            ModelAndView viewError = new ModelAndView("register/login");
+            viewError.addObject("error", "user_password_error");
+            return viewError;
         }
         
     }

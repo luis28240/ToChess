@@ -17,6 +17,10 @@
             <form method="POST">
                 <div class="card">
                     <div class="card-body">
+                        <c:if test='${error == "user_password_error"}'>
+                            <small class="text-danger">Usuario o contraseña no validos</small>
+                            <hr class="w-100"/>
+                        </c:if>
                         <section class="form-group">
                             <label for="username">Usuario:</label>
                             <input type="text" class="form-control" 
@@ -41,17 +45,17 @@
             var contextUrl = $('body').data("url");
 
             var verifyUsername = () => {
-                
-                var url = contextUrl+"/users/"+$('#username').val();
-                
+
+                var url = contextUrl + "/users/" + $('#username').val();
+
                 //Lets verify the username is available
                 $.get(url, {}, (data) => {
                     console.log(`data: \${data} | bool-data: \${!!data}`);
                 });
             };
 
-            $(function(){
-               $('#username').on("keyup change", verifyUsername);
+            $(function () {
+                $('#username').on("keyup change", verifyUsername);
             });
 
         </script>
