@@ -18,7 +18,7 @@
                 <div class="card">
                     <div class="card-body">
                         <c:if test='${error == "user_password_error"}'>
-                            <small class="text-danger">Usuario o contraseña no validos</small>
+                            <small class="text-danger">Usuario o contraseña no validos...</small>
                             <hr class="w-100"/>
                         </c:if>
                         <section class="form-group">
