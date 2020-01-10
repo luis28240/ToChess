@@ -17,6 +17,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import static com.ToChess.repository.RepositoryUtils.*;
+
 /**
  *
  * @author Tarde
@@ -27,13 +29,6 @@ public class RepositoryUsers {
     @Autowired
     private DataSource dataSource;
 
-    private ResultSet executeQuery(PreparedStatement pSt, Object... objList) throws SQLException{
-        for(int i = 0; i < objList.length; i++){
-            pSt.setObject(i+1, objList[i]);
-        }
-        return pSt.executeQuery();
-    }
-    
     public User getUserByEmail(String email){
         String sql 
                 = "SELECT username,\n"
@@ -78,7 +73,8 @@ public class RepositoryUsers {
     
     public User getUser(String username) {
         String sql 
-                = "SELECT username,\n"
+                = "SELECT id_user,\n"
+                + "       username,\n"
                 + "       email,\n"
                 + "       \"password\",\n"
                 + "       classical\n"
@@ -90,8 +86,11 @@ public class RepositoryUsers {
             if(rsUser.next()){
                 String email = rsUser.getString("email");
                 int classical = rsUser.getInt("classical");
+                int id = rsUser.getInt("id_user");
                 
                 User user = new User(username);
+                
+                user.setId(id);
                 user.setEmail(email);
                 user.setClassical(classical);
                 user.setLoggedUser(true);

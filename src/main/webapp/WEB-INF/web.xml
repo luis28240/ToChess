@@ -17,7 +17,7 @@
     </filter>
     <filter-mapping>
         <filter-name>SimpleCORSFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/clubs/*</url-pattern>
     </filter-mapping>
     
 </web-app>

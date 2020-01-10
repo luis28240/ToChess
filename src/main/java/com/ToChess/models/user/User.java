@@ -18,6 +18,7 @@ public class User {
 
     public static final int USERNAME_LENGHT = 10;
 
+    private int id;
     private final String username;
     private final HashMap<String, ChessGame> gameList;
     private String password;
@@ -37,6 +38,14 @@ public class User {
         this.username = username;
         gameList = new HashMap<>();
         loggedUser = false;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isAnonymous() {

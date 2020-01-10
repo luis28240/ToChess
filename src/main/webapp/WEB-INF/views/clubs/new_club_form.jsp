@@ -23,7 +23,7 @@
                                 
                                 <div class="form-group">
                                     <label for="txtNombre">Nombre:</label>
-                                    <input class="form-control" name="txtNombre" id="txtNombre" type="text"/>
+                                    <input class="form-control" name="txtName" id="txtNombre" type="text"/>
                                 </div>
                                 
                                 <div class="form-group">
