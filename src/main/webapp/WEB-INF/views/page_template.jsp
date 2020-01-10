@@ -4,22 +4,18 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>${userProfile.username}</title>
+        <title>Clubs</title>
         <%@include file="/WEB-INF/includes/commons/web_styles.jsp" %>
     </head>
     <body>
         <%@include file="/WEB-INF/includes/header.jsp" %>
         <main class="container">
-            <section class='row'>
-                <div class='col-12 col-md'>
-                    Email: ${userProfile.email}
-                </div>
-                <div class='col-12 col-md'>
-                    Classical: ${userProfile.classical}
+            <section class="row">
+                <div class="col">
+                    <button class="btn btn-primary">Crear un club</button>
                 </div>
             </section>
         </main>
-                
         <%@include file="/WEB-INF/includes/commons/web_scripts.jsp" %>
     </body>
 </html>
