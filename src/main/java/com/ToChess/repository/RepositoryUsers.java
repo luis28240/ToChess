@@ -77,6 +77,7 @@ public class RepositoryUsers {
                 + "       username,\n"
                 + "       email,\n"
                 + "       \"password\",\n"
+                + "       id_club,\n"
                 + "       classical\n"
                 + "FROM   \"users\"\n"
                 + "WHERE  UPPER(username) = UPPER(?)";
@@ -87,12 +88,56 @@ public class RepositoryUsers {
                 String email = rsUser.getString("email");
                 int classical = rsUser.getInt("classical");
                 int id = rsUser.getInt("id_user");
+                Integer idClub = rsUser.getInt("id_club");
+                
+                if(rsUser.wasNull()){
+                    idClub = null;
+                }
                 
                 User user = new User(username);
                 
                 user.setId(id);
                 user.setEmail(email);
                 user.setClassical(classical);
+                user.setIdClub(idClub);
+                user.setLoggedUser(true);
+                return user;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RepositoryUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public User getUser(int id) {
+        String sql 
+                = "SELECT id_user,\n"
+                + "       username,\n"
+                + "       email,\n"
+                + "       \"password\",\n"
+                + "       id_club,\n"
+                + "       classical\n"
+                + "FROM   \"users\"\n"
+                + "WHERE  id_user = ?";
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pSt = con.prepareStatement(sql);
+             ResultSet rsUser = executeQuery(pSt, id)) {
+            if(rsUser.next()){
+                String email = rsUser.getString("email");
+                int classical = rsUser.getInt("classical");
+                String username  = rsUser.getString("username");
+                Integer idClub = rsUser.getInt("id_club");
+                
+                if(rsUser.wasNull()){
+                    idClub = null;
+                }
+                
+                User user = new User(username);
+                
+                user.setId(id);
+                user.setEmail(email);
+                user.setClassical(classical);
+                user.setIdClub(idClub);
                 user.setLoggedUser(true);
                 return user;
             }

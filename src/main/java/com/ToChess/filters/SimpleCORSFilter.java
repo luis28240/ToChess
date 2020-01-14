@@ -1,6 +1,7 @@
 package com.ToChess.filters;
 
 import com.ToChess.models.user.User;
+import com.ToChess.repository.RepositoryUsers;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,18 +13,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 @Component
 public class SimpleCORSFilter implements Filter {
 
     private final Logger log = LoggerFactory.getLogger(SimpleCORSFilter.class);
 
+//    @Autowired
+//    private RepositoryUsers repoUser;
+
 //    public SimpleCORSFilter() {
 //        log.info("SimpleCORSFilter init");
 //    }
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+
+        RepositoryUsers repoUser = WebApplicationContextUtils.
+                getRequiredWebApplicationContext(req.getServletContext()).
+                getBean(RepositoryUsers.class);
 
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
@@ -36,11 +46,13 @@ public class SimpleCORSFilter implements Filter {
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
 
         HttpSession session = request.getSession();
-        
-        if(request.getRequestURI().contains("clubs")){
-            User user = (User)session.getAttribute("user");
+
+        if (request.getRequestURI().contains("clubs")) {
+            User user = (User) session.getAttribute("user");
             if (user == null || user.getId() == 0) {
-                response.sendRedirect(request.getContextPath()+"/login");
+                response.sendRedirect(request.getContextPath() + "/login");
+            } else {
+                session.setAttribute("user", repoUser.getUser(user.getId()));
             }
         }
         chain.doFilter(req, res);

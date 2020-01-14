@@ -11,8 +11,25 @@
         <%@include file="/WEB-INF/includes/header.jsp" %>
         <main class="container">
             <section class="row">
-                <div class="col">
-                    <a class="btn btn-primary" href="<c:url value='/clubs/create'/>" role="button">Crear un club</a>
+                <div class="col d-flex justify-content-center p-3">
+
+                    <c:choose>
+                        <c:when test="${not empty user.idClub}">
+                            <a role="button" class="btn btn-primary" href="<c:url value='/clubs/${user.idClub}'/>">Mi club</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="btn btn-primary" href="<c:url value='/clubs/create'/>" role="button">Crear un club</a>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </section>
+
+            <section class="row">
+                <div class="list-group col">
+                    <c:forEach items="${clubList}" var="club">
+                        <a href="<c:url value='/clubs/${club.id}'/>" 
+                           class="list-group-item list-group-item-action list-group-item-primary">${club.name}</a>
+                    </c:forEach>
                 </div>
             </section>
         </main>

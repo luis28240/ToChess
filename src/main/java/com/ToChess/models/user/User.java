@@ -25,7 +25,16 @@ public class User {
     private String email;
     private boolean loggedUser;
     private int classical;
+    private Integer idClub;
 
+    public Integer getIdClub() {
+        return idClub;
+    }
+
+    public void setIdClub(Integer idClub) {
+        this.idClub = idClub;
+    }
+    
     public int getClassical() {
         return classical;
     }

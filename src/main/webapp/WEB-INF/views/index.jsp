@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <hr class="w-100"/>
-                <section class="row justify-content-between" id="gameList">
+                <section class="row w-100 justify-content-between" id="gameList">
 
                 </section>
             </section>
