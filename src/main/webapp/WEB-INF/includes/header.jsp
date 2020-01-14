@@ -22,7 +22,7 @@
         <h1>Hola, ${sessionScope.user.username}</h1>
     </section>
     <section class="row">
-        <a role="button" class="btn btn-link" href="<c:url value='/user/${sessionScope.user.username}'/>">Torneos</a>
+        <%--<a role="button" class="btn btn-link" href="<c:url value='/user/${sessionScope.user.username}'/>">Torneos</a>--%>
         <a role="button" class="btn btn-link" href="<c:url value='/clubs'/>">Clubs</a>
         <!--<a role="button" class="btn btn-link" data-toggle="modal" data-target="#modalTest" href="#">Crear partida</a>-->
         <!--<a role="button" class="btn btn-link" href="#">Crear partida</a>-->
