@@ -51,7 +51,7 @@
 
                     <c:forEach items="${memberList}" var="member">
                         <tr>
-                            <td>${member.username}</td>
+                            <td><a href="<c:url value='/user/${member.username}'/>">${member.username}</a></td>
                             <td>${member.email}</td>
                             <td>${member.classical}</td>
                             <c:if test="${club_leader.id == user.id}">
